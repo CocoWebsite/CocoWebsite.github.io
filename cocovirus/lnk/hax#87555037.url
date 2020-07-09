@@ -1,0 +1,7 @@
+[{000214A0-0000-0000-C000-000000000046}]
+Prop3=19,9
+[It is actualy possible to hide messages or even full files inside shortcuts]
+msg=u
+[InternetShortcut]
+IDList=
+URL=file:///nul
