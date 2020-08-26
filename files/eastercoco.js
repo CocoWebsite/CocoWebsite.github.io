@@ -52,4 +52,6 @@ document.getElementById("ZAK").innerHTML = "<P>Its new years eve! coco counter:<
 refreshAt(12,0,0)
 } else if (MONTH == 1 && DATE == 1) {
 document.getElementById("ZAK").innerHTML = "<P>Happy new year!</P><H1>" + YEAR + "</H1>";
+} else if (MONTH == 10 && DATE == 31) {
+document.getElementById("ZAK").innerHTML = "<P>Its Halloween. Coco is scared that the curse is here.</P><img src='./../files/halloweencoco.jpg'>";
 }
