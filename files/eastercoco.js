@@ -55,3 +55,8 @@ document.getElementById("ZAK").innerHTML = "<P>Happy new year!</P><H1>" + YEAR +
 } else if (MONTH == 10 && DATE == 31) {
 document.getElementById("ZAK").innerHTML = "<P>Its Halloween. Coco is scared that the curse is here.</P><img src='./../files/halloweencoco.jpg'>";
 }
+
+//check for url bar secrets
+if (urlVariables["coco"] == "poor") {
+document.getElementById("ZAK").innerHTML = "<P>coco is poor. coco is sad. have a coco coin</P><img src='./../files/cococoin.png'>";
+}
