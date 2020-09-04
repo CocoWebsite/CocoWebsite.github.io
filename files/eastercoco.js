@@ -59,4 +59,6 @@ document.getElementById("ZAK").innerHTML = "<P>Its Halloween. Coco is scared tha
 //check for url bar secrets
 if (urlVariables["coco"] == "poor") {
 document.getElementById("ZAK").innerHTML = "<P>coco is poor. coco is sad. have a coco coin</P><img src='./../files/cococoin.png'>";
+} else if (urlVariables["amazon"] == "" or urlVariables["coco"] == "amazon") { 
+window.location.replace("./../cocos/secretcocos/amazoncoco/")
 }
