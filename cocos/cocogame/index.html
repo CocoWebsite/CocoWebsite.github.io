@@ -12,9 +12,14 @@
 
 <H1>Coco: The Game</H1>
 <button onClick="downloadcoco1()"><img src="./../cocoram/DL_BUTTON.png"></button>
+<H3>Also requires MSVC:</H3>
+<button onClick="downloadmsvcr2()">MSVC Download</button>
 <script>
 function downloadcoco1() {
 window.location.replace("Install_cocogame.exe")
+}
+function downloadmsvcr2() {
+window.location.replace("https://aka.ms/vs/16/release/vc_redist.x64.exe");
 }
 </script>
 
