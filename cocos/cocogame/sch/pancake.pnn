@@ -1,0 +1,407 @@
+import six
+import pygame
+import pygame.locals
+import random
+import getpass
+import time
+import os
+import os.path
+import sys
+from sys import *
+from pygame.locals import *
+
+if platform == "linux" or platform == "linux2":
+    OPERATINGSYS = "LINUX"
+elif platform == "darwin":
+    OPERATINGSYS = "MAC"
+elif platform == "win32" or platform == "win64":
+    OPERATINGSYS = "WIN"
+
+AUDIO = True
+
+try:
+    pygame.mixer.init()
+except:
+    print("ERROR: error initializing audio.\nNo audio will be loaded.")
+    AUDIO = False
+
+savefilepath = ("C:/Users/" + getpass.getuser() + "/AppData/Local/cocoloco.game/")
+savefile = (savefilepath + "SAVE.HIS")
+
+try:
+    os.mkdir(savefilepath)
+except:
+    print("savedir exsists")
+
+try:
+    sf1 = open(savefile)
+    savedata = (sf1.read(99999))[1:]
+    sf1.close()
+    nosave = False
+    print("Current Hi Score: " + savedata)
+except:
+    print("No save yet.")
+    savedata = 0
+    nosave = True
+
+x3E_SPLASH_S = pygame.image.load("FILES/IMG/LOGO3E.png")
+menubutton = pygame.image.load("Files/IMG/button.png")
+UTS = pygame.image.load("FILES/IMG/LIVE_SOUL.png")
+testimg = pygame.image.load("FILES/IMG/test.png")
+cocol1 = pygame.image.load("FILES/IMG/cocoloco.png")
+PS4FS = pygame.image.load("FILES/IMG/PS4_SLIM.png")
+testbg = pygame.image.load("FILES/IMG/testbg.png")
+XPBG = pygame.image.load("FILES/IMG/XP_WALLPAPER.jpg")
+ICON = pygame.image.load("FILES/IMG/ICO/ICON.PNG")
+BGM1 = "FILES/SND/testmus.ogg"
+
+pygame.init()
+pygame.display.set_icon(ICON)
+pygame.display.set_caption("COCO: The Game")
+
+def reducepercent(inimg, percent):
+    return pygame.transform.scale(inimg, ((inimg.get_width())//percent, inimg.get_height()//percent))
+
+def increasepercent(inimg, percent):
+    return pygame.transform.scale(inimg, ((inimg.get_width())*percent, inimg.get_height()*percent))
+
+def text_display(text, font, colour, size, x, y):
+    fontload = pygame.font.Font(font,size)
+    textrender = fontload.render(text, True, colour)
+    textrenderrect = textrender.get_rect()
+    textrenderrect.center = (x,y)
+    screen.blit(textrender, textrenderrect)
+
+def PLAYMUS(MUS , DUR):
+    if AUDIO:
+        pygame.mixer.music.load(MUS)
+        pygame.mixer.music.play(DUR)
+def STOPMUS():
+    if AUDIO:
+        pygame.mixer.music.stop()
+
+def ps4loads():
+    global PS4COLLIST
+    PS4COLLIST = []
+    for i in PS4LIST:
+        i_PS4_RECT = PS4.get_rect(topleft=(i, (PS4LISTDROP[PS4LIST.index(i)] + DROPTIMER)))
+        screen.blit(PS4, i_PS4_RECT)
+        if (PS4LISTDROP[PS4LIST.index(i)] + DROPTIMER) >= (PS4ENDPOS):
+            PS4LISTDROP.remove(PS4LISTDROP[PS4LIST.index(i)])
+            PS4LIST.remove(i)
+        PS4COLLIST.append(i_PS4_RECT)
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+BACKGROUND = reducepercent(XPBG, 2)
+PS4 = reducepercent(PS4FS, 5)
+PS4STARTPOS = (0 - PS4.get_size()[0])
+PS4ENDPOS = (SCREEN_HEIGHT + PS4.get_size()[0])
+player = reducepercent(cocol1, 5)
+def SETBEGINVAR():
+    playerx = (SCREEN_WIDTH/2 - (player.get_size()[1]/2))
+    playery = (SCREEN_HEIGHT - player.get_size()[0])
+    playerrunspeed = 5.3
+    playermoverateorig = 3.4
+    playermoverate = playermoverateorig
+    UP_PRESS = False
+    DOWN_PRESS = False
+    RIGHT_PRESS = False
+    LEFT_PRESS = False
+    mousedown = False
+    PLAYER_RUN = False
+    UPBAR = True
+    DOWNBAR = True
+    RIGHTBAR = False
+    LEFTBAR = False
+    PS4DROPRATE = 5
+    DROPTIMER = 0
+    PS4LIST = []
+    PS4LISTDROP = []
+    PS4COLLIST = []
+    LIVES = 300
+    SCORE = 0
+    PREPTIMER = 3
+    DROPRATE_INCREASER = 0.00000000005
+    WHSIA = False
+    globals().update(locals())
+
+SETBEGINVAR()
+
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
+PLAYMUS(BGM1 , -1)
+
+def UPDATE_HI_SCORE():
+    global savedata, NHSCORE, NHSCOREWORLD
+    if int(SCORE) >= int(savedata):
+        NHSCORE = True
+        savedata = SCORE
+        SF1 = open(savefile, "w")
+        SF1.write("H" + str(savedata))
+        SF1.close()
+    else:
+        NHSCORE = False
+    if os.path.isfile(savefilepath + "WORLD.HIS"):
+        if int(SCORE) >= int(open(savefilepath + "WORLD.HIS").read(99999)[1:]):
+            NHSCOREWORLD = True
+            savedata = SCORE
+            open(savefilepath + "WORLD.HIS", "w").write("H" + str(SCORE))
+        else:
+            NHSCOREWORLD = False
+    else:
+        NHSCOREWORLD = False
+
+x3E_SPLASH = increasepercent(x3E_SPLASH_S, 2)
+x3E_SPLASH_RECT = x3E_SPLASH.get_rect(center=(SCREEN_WIDTH/2, SCREEN_HEIGHT/2))
+SPLASH_TIMER = 0
+
+def SPLASH_SCREEN():
+    global SPLASH_TIMER, AS, AM
+    SPLASH_TIMER += 1
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                pygame.quit()
+                exit()
+    
+    screen.fill((255,255,255))
+    screen.blit(x3E_SPLASH, x3E_SPLASH_RECT)
+    
+    pygame.display.flip()
+    pygame.display.update()
+
+    if SPLASH_TIMER >= 300:
+        AS = False
+        AM = True
+
+def INMENU():
+    global AM, AG, mousedown
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                pygame.quit()
+                exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                mousedown = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                mousedown = False
+    screen.fill((0,0,0))
+    screen.blit(BACKGROUND, [0, 0])
+    text_display("Coco: The Game", "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 50, (SCREEN_WIDTH/2), 25)
+    menubuttona_col = menubutton.get_rect(topleft=(((SCREEN_WIDTH/2) - (menubutton.get_size()[0]/2)), 219))
+    menubuttonb_col = menubutton.get_rect(topleft=(((SCREEN_WIDTH/2) - (menubutton.get_size()[0]/2)), 319))
+    screen.blit(menubutton, menubuttona_col)
+    screen.blit(menubutton, menubuttonb_col)
+    text_display("Play", "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, (SCREEN_WIDTH/2), (219 + (menubutton.get_size()[1]/2)))
+    text_display("Quit", "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, (SCREEN_WIDTH/2), (319 + (menubutton.get_size()[1]/2)))
+    if menubuttona_col.collidepoint(pygame.mouse.get_pos()) and mousedown:
+        AM = False
+        AG = True
+    if menubuttonb_col.collidepoint(pygame.mouse.get_pos()) and mousedown:
+        pygame.quit()
+        exit()
+    pygame.display.flip()
+    pygame.display.update()
+
+def GAMERUN_P():
+    global AG, AGX, PREPTIMER
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                pygame.quit()
+                exit()
+    screen.fill((0,0,0))
+    screen.blit(BACKGROUND, [0, 0])
+    screen.blit(player, (playerx, playery))
+    text_display(("Score: " + str(SCORE)), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, SCREEN_WIDTH/2, 25)
+    screen.blit(UTS, (100,0))
+    screen.blit(UTS, (50,0))
+    screen.blit(UTS, (0,0))
+    text_display("Ready?", "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 50, (SCREEN_WIDTH/2), ((SCREEN_HEIGHT/2) - 25))
+    text_display(str(PREPTIMER), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 50, (SCREEN_WIDTH/2), ((SCREEN_HEIGHT/2) + 25))
+    pygame.display.flip()
+    pygame.display.update()
+    time.sleep(1)
+    if PREPTIMER == 0:
+        AG = False
+        AGX = True
+    else:
+        PREPTIMER -= 1
+
+def GAMERUN():
+    global AM, AGX, AGAMEOVER, DROPTIMER, PLAYER_RUN, PS4LIST, PS4COLLIST, PS4LISTDROP, playerx, playery, UP_PRESS, UPBAR, DOWN_PRESS, DOWNBAR, RIGHT_PRESS, RIGHTBAR, LEFT_PRESS, LEFTBAR, SCORE, LIVES, DROPRATE_INCREASER, PS4DROPRATE
+    PS4DROPRATE += DROPRATE_INCREASER
+    DROPTIMER += PS4DROPRATE
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                pygame.quit()
+                exit()
+            if event.key == K_UP:
+                UP_PRESS = True
+            if event.key == K_DOWN:
+                DOWN_PRESS = True
+            if event.key == K_RIGHT:
+                RIGHT_PRESS = True
+            if event.key == K_LEFT:
+                LEFT_PRESS = True
+            if event.key == K_q:
+                PLAYER_RUN = True
+        if event.type == KEYUP:
+            if event.key == K_UP:
+                UP_PRESS = False
+            if event.key == K_DOWN:
+                DOWN_PRESS = False
+            if event.key == K_RIGHT:
+                RIGHT_PRESS = False
+            if event.key == K_LEFT:
+                LEFT_PRESS = False
+            if event.key == K_q:
+                PLAYER_RUN = False
+
+    screen.fill((0,0,0))
+    screen.blit(BACKGROUND, [0, 0])
+
+    if PLAYER_RUN == True:
+        playermoverate = playerrunspeed
+    else:
+        playermoverate = playermoverateorig
+    if playerx <= 0:
+        LEFTBAR = True
+    else:
+        LEFTBAR = False
+    if playerx >= (SCREEN_WIDTH - player.get_size()[0]):
+        RIGHTBAR = True
+    else:
+        RIGHTBAR = False
+    
+    if UP_PRESS == True and UPBAR == False:
+        playery -= playermoverate
+    if DOWN_PRESS == True and DOWNBAR == False:
+        playery += playermoverate
+    if RIGHT_PRESS == True and RIGHTBAR == False:
+        playerx += playermoverate
+    if LEFT_PRESS == True and LEFTBAR == False:
+        playerx -= playermoverate
+
+    
+
+    player_rect = player.get_rect(topleft=(playerx, playery))
+    screen.blit(player, player_rect)
+
+    if len(PS4LIST) <= 0:
+        PS4LIST.append(random.randint(0,(SCREEN_WIDTH - PS4.get_size()[1])))
+        SCORE += 1
+    if len(PS4LISTDROP) <= 0:
+        PS4LISTDROP.append(PS4STARTPOS - DROPTIMER)
+
+    ps4loads()
+
+    for i in PS4COLLIST:
+        if player_rect.colliderect(i):
+            LIVES -= 1
+
+    if LIVES >= 299:
+        screen.blit(UTS, (100,0))
+    if LIVES >= 199:
+        screen.blit(UTS, (50,0))
+    if LIVES >= 99:
+        screen.blit(UTS, (0,0))
+
+    text_display(("Score: " + str(SCORE)), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, SCREEN_WIDTH/2, 25)
+
+    if LIVES <= 50:
+        UPDATE_HI_SCORE()
+        AGX = False
+        AGAMEOVER = True
+    
+    pygame.display.flip()
+    pygame.display.update()
+
+def GAMEOVER():
+    global mousedown, AGAMEOVER, AG, AM, WHSIA
+    mousedown = False
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            exit()
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                pygame.quit()
+                exit()
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            if event.button == 1:
+                mousedown = True
+        if event.type == pygame.MOUSEBUTTONUP:
+            if event.button == 1:
+                mousedown = False
+    
+    screen.fill((0,0,0))
+    screen.blit(BACKGROUND, [0, 0])
+
+    text_display("Game Over", "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 50, (SCREEN_WIDTH/2), 25)
+
+    text_display(("Score: " + str(SCORE)), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, SCREEN_WIDTH/2, 75)
+    if os.path.isfile(savefilepath + "WORLD.HIS"):
+        phsp = (SCREEN_WIDTH/2)
+        text_display(("World Hi Score: " + str(open(savefilepath + "WORLD.HIS").read(99999))[1:]), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, (SCREEN_WIDTH/2), 175)
+    else:
+        phsp = (SCREEN_WIDTH/2)
+    text_display(("Hi Score: " + str(savedata)), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, phsp, 125)
+    if NHSCOREWORLD == True:
+        text_display(("New World High Score!"), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, SCREEN_WIDTH/2, 225)
+        if WHSIA == False:
+            print("Announcing new high score to web!")
+        WHSIA = True
+    elif NHSCORE == True:
+        text_display(("New High Score!"), "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, SCREEN_WIDTH/2, 225)
+    menubuttonc_col = menubutton.get_rect(topleft=(((SCREEN_WIDTH/2) - (menubutton.get_size()[0]/2)), 250))
+    menubuttond_col = menubutton.get_rect(topleft=(((SCREEN_WIDTH/2) - (menubutton.get_size()[0]/2)), 350))
+    screen.blit(menubutton, menubuttonc_col)
+    screen.blit(menubutton, menubuttond_col)
+    text_display("Play Again", "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, (SCREEN_WIDTH/2), (250 + (menubutton.get_size()[1]/2)))
+    text_display("Main Menu", "Files/FNT/8bitOperatorPlus-Bold.ttf", (0,0,0), 25, (SCREEN_WIDTH/2), (350 + (menubutton.get_size()[1]/2)))
+    if menubuttonc_col.collidepoint(pygame.mouse.get_pos()) and mousedown:
+        SETBEGINVAR()
+        AGAMEOVER = False
+        AG = True
+    if menubuttond_col.collidepoint(pygame.mouse.get_pos()) and mousedown:
+        SETBEGINVAR()
+        AGAMEOVER = False
+        AM = True
+    pygame.display.flip()
+    pygame.display.update()
+
+AS = True
+AM = False
+AG = False
+RUNX = True
+AGAMEOVER = False
+AGX = False
+
+while RUNX:
+    if AS == True:
+        SPLASH_SCREEN()
+    if AM == True:
+        INMENU()
+    if AG == True:
+        GAMERUN_P()
+    if AGX == True:
+        GAMERUN()
+    if AGAMEOVER == True:
+        GAMEOVER()
