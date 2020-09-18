@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="https://www.bt.com/etc/designs/bt/presales-page-design/favicon.ico">
+    <title>BT Protect Intercept Page</title>
+    <style>
+        *,
+        *::after,
+        *::before {
+            margin: 0;
+            padding: 0;
+            box-sizing: inherit;
+        }
+        body {
+            box-sizing: border-box;
+            padding: 20px;
+            color: #333;
+        }
+        header {
+            text-align: center;
+            padding: 20px 0;
+        }
+        main {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        section, hr {
+            margin-bottom: 60px;
+        }
+        @font-face {
+            font-family: 'bt-light';
+            src: url('https://img01.bt.co.uk/s/assets/111119/fonts/bt/BTFont_Lt.woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'bt-normal';
+            src: url('https://img01.bt.co.uk/s/assets/111119/fonts/bt/BTFont_Rg.woff');
+            font-weight: normal;
+            font-style: normal;
+        }
+        h1, h2, h3, h4 {font-family: 'bt-light'; font-weight: 200;}
+        p, a {font-family: 'bt-normal';}
+        h1,
+        h2,
+        h3,
+        p,
+        a {
+            margin: 20px 0;
+        }
+        h1 {
+            font-size: 32px;
+            line-height: 36px;
+        }
+        h2 {
+            font-size: 26px;
+            line-height: 30px;
+        }
+        h3 {
+            font-size: 22px;
+            line-height: 26px;
+        }
+        h4 {
+            font-size: 18px;
+            line-height: 23px;
+        }
+        .alert-notification {
+            background-color: #e60014;
+            color: #fff;
+            padding: 10px 20px;
+        }
+        .alert-notification .warning-icon {
+            float: left;
+            margin: 0 20px 80px 0;
+            content: '';
+            background: url('https://my.bt.com/s/apps/appsbills/images/BT_icon_sprite-sheet.png') no-repeat scroll -240px -575px;
+            height: 33px;
+            width: 30px;
+        }
+        .alert-notification p {
+            color: #fff;
+            margin: 5px 0 0 0;
+        }
+        .btn {
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-decoration: none;
+            border: 1px solid #6400aa;
+            display: table;
+            color: #6400aa;
+        }
+        .btn-primary {
+            background-color: #6400aa;
+            color: #fff;
+        }
+        .btn-primary:hover,
+        .btn-primary:focus {
+            background-color: #540e85;
+        }
+        .btn-secondary:hover,
+        .btn-secondary:focus {
+            background-color: #f7f2fb;
+        }
+        @media screen and (min-width: 768px) {
+            h1 {
+                font-size: 40px;
+                line-height: 44px;
+            }
+            h2 {
+                font-size: 32px;
+                line-height: 36px;
+            }
+            h3 {
+                font-size: 24px;
+                line-height: 28px;
+            }
+            h4 {
+                font-size: 20px;
+                line-height: 25px;
+            }
+            .alert-notification .warning-icon {
+                background: url('https://my.bt.com/s/apps/appsbills/images/BT_icon_sprite-sheet.png') no-repeat scroll -176px -575px;
+                height: 45px;
+                width: 45px;
+                margin: 5px 20px 20px 0;
+            }
+        }
+        @media screen and (min-width: 1200px) {
+            h1 {
+                font-size: 48px;
+                line-height: 51px;
+            }
+            h2 {
+                font-size: 36px;
+                line-height: 40px;
+            }
+            h3 {
+                font-size: 28px;
+                line-height: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <img src="./BT Protect Intercept Page_jose_files/bt-logo-indigo.jpg" alt="BT logo">
+    <h1>Warning: you could be getting scammed!</h1>
+</header>
+<main>
+    <section class="alert-notification">
+        <i class="warning-icon"></i>
+        <h4>Suspected unsafe site: <span id="url-tried-to-access">cocoerror</span></h4>
+        <p>This website could be trying to steal your information, install a virus or gain access to your device.</p>
+    </section>
+    <section>
+        <h2>What to do next</h2>
+        <p>We recommend you don't visit the website. If you've been directed to this page by an unexpected caller,
+            it is almost certainly a scam. Please hang up and report the call on www.bt.com/scams.</p>
+
+        <a class="btn btn-primary" href="javascript:omniOnClick(&#39;Con:YA:BP:warningpage:Back&#39;); window.history.go(-1);">Go back</a>
+        <a id="click-to-continue" class="btn btn-secondary" onclick="omniOnClick(&#39;Con:YA:BP:warningpage:Continue&#39;)">Continue anyway</a>
+    </section>
+    <section>
+        <h2>About Web Protect</h2>
+        <p>BT Web Protect is free to all our broadband customers and is designed to keep you safe online. To find
+            out more, log into www.bt.com/mybt.</p>
+    </section>
+    <hr>
+    <section>
+        <h2>Learn more about staying safe online</h2>
+        <p>We want you to have peace of mind when going online and talking on the phone. That's why we give you
+            tools like Web Protect and Call Protect. Learn how these tools could protect you against scammers at www.bt.com/scams.</p>
+        <p>Visit www.internetmatters.org for advice, support and tips to keep you and your loved ones safe online.</p>
+    </section>
+</main>
+
+<script src="./BT Protect Intercept Page_jose_files/jquery.min.js.download"></script>
+<script src="./BT Protect Intercept Page_jose_files/cookie.js.download"></script>
+<script src="./BT Protect Intercept Page_jose_files/purl.min.js.download"></script>
+<script src="./BT Protect Intercept Page_jose_files/jquery.base64.js.download"></script>
+
+<script>
+    var DURATION = 10800;
+    var COOKIE = '_c_t_c';
+    var urlAccessed = window.location.href;
+    $('#url-tried-to-access').text(urlAccessed);
+    $("#click-to-continue").click(function() {
+        if(navigator.cookieEnabled){
+            var domain = location.hostname;
+            var expires = new Date(+new Date() + DURATION * 1000);
+            if (/*@cc_on!@*/false || window.documentMode) {
+                document.cookie = COOKIE+'=1; path=/; domain=' + domain + '; expires=' + expires.toGMTString();
+            } else {
+                document.cookie = COOKIE+'=1; path=/; domain=' + domain + '; expires=' + expires.toUTCString();
+            }
+            window.location = $('#url-tried-to-access').text();
+        } else {
+            $('#error-message').removeClass('hide');
+            $('#error-message').goTo();
+        }
+    });
+</script>
+<!-- OMNITURE  -->
+<script>
+    var s_pageName = "BT Protect Intercept Page";
+    var s_channel = "";
+    var s_products = "";
+    var s_events = "";
+    var s_hier1 = "";
+    var s_prop9 = "";
+    var s_prop10 = "";
+    function omniOnClick(omniture_tag) {
+        s_linkTrackVars = 'eVar19,prop50';
+        s_eVar19 = omniture_tag;
+        s_prop50 = omniture_tag;
+        s_linkType = 'o';
+        s_linkName = omniture_tag;
+        s_lnk = s_co(this);
+        s_gs('btcom');
+    }
+</script>
+<script src="./BT Protect Intercept Page_jose_files/s_code_remote.js.download"></script><script language="javascript" src="./BT Protect Intercept Page_jose_files/omtr_tc.js.download"></script>
+<script src="./BT Protect Intercept Page_jose_files/omtr_tc.js(1).download"></script>
+<script src="./BT Protect Intercept Page_jose_files/app.js.download"></script>
+
+
+</body></html>

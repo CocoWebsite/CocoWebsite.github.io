@@ -1,0 +1,124 @@
+
+	/**
+	* Config
+	*
+	*/
+	var cfg = {
+		debug : true,
+		cookieName : 'clicktocontinue',
+		cookieParse : true
+	};
+
+	// parse the data to json ?
+	if(cfg.cookieParse){
+		$.cookie.json = true;
+	}
+
+	// sample data
+	var sampleCookie = {
+		"name":"click-to-continue",
+		"priority-tag":"click-to-continue",
+		"enabled":true,
+		"binding":{
+			"auto-bind":"off"
+		},
+		"rules":[
+			{
+				"actions":[
+				{
+					"type":"rewrite-request-header",
+					"header":"Cookie",
+					"pattern":"whitelist(; ?)?",
+					"rewrite":""
+				},
+				{
+					"type":"allow"
+				}
+			],
+			"conditions":[
+				{
+					"type":"list-group",
+					"name":"subscriber_safety"
+				},
+				{
+					"type":"request-header-regex",
+					"header":"Cookie",
+					"value":"whitelist"
+				}
+			]
+		},
+		{
+			"actions":[
+				{
+					"type":"return-response",
+					"status-code":"200",
+					"headers":{
+						"Set-Cookie":"whitelist; max-age=15; domain={{host}}"}}
+			],
+			"conditions":[
+				{
+					"type":"list-group",
+					"name":"subscriber_safety"
+				},
+				{
+					"type":"request-url",
+					"url":"http://./whitelist"
+				}
+			]
+		},
+		{
+			"actions":[
+				{
+					"type":"redirect-to-url",
+					"target":"http://www.imhappy.to/Blocked.html?originalUrl={{url64}}"
+				}
+			],
+			"conditions":[
+				{
+					"type":"list-group",
+					"name":"subscriber_safety"
+				}
+			]
+		}
+		]
+	};
+
+
+	// set sample cookie
+	if(cfg.debug) $.cookie(cfg.cookieName, sampleCookie);
+
+
+	var cookieData = $.cookie(cfg.cookieName);
+	// console.info(cookieData);
+
+	// ###################################### test logic below ###################################
+
+// 	function extractDomain(url) {
+// 		var domain;
+// 	//find & remove protocol (http, ftp, etc.) and get domain
+// 	    if (url.indexOf("://") > -1) {
+// 	        domain = url.split('/')[2];
+// 	    }
+// 		else {
+// 	        domain = url.split('/')[0];
+// 	    }
+
+// 	//find & remove port number
+// 		domain = domain.split(':')[0];
+
+// 		return domain;
+// 	}
+
+// 	var x = sampleCookie.rules[2].actions[0].target;
+
+// 	var cleanX = extractDomain(x);
+// // print original URL intended to visit to screen
+// 	$('#urlValue').append(cleanX);
+
+// // add variable value to the href
+// 	$('#cont').on('click', function(){
+
+// 		//console.log(x.replace('{{url64}}', ''));
+// 		location.replace(x.replace('{{url64}}', ''));
+// 	});
+// end of test logic
