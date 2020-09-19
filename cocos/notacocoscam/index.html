@@ -4,6 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="icon" href="https://www.bt.com/etc/designs/bt/presales-page-design/favicon.ico">
+    <script src="https://3EGaming.github.io/files/js/urlvar.js"></script>
     <title>BT Protect Intercept Page</title>
     <style>
         *,
@@ -152,7 +153,10 @@
 <main>
     <section class="alert-notification">
         <i class="warning-icon"></i>
-        <h4>Suspected unsafe site: <span id="url-tried-to-access">cocoerror</span></h4>
+        <h4>Suspected unsafe site: <!--<span id="url-tried-to-access">cocoerror</span>--><div id="suspect_scam_url"></div></h4>
+        <script>
+        document.getElementById("suspect_scam_url").innerHTML = urlVariables['suspect'];
+        </script>
         <p>This website could be trying to steal your information, install a virus or gain access to your device.</p>
     </section>
     <section>
@@ -161,7 +165,10 @@
             it is almost certainly a scam. Please hang up and report the call on www.bt.com/scams.</p>
 
         <a class="btn btn-primary" href="javascript:omniOnClick(&#39;Con:YA:BP:warningpage:Back&#39;); window.history.go(-1);">Go back</a>
-        <a id="click-to-continue" class="btn btn-secondary" onclick="omniOnClick(&#39;Con:YA:BP:warningpage:Continue&#39;)">Continue anyway</a>
+        <div id="continuebuttondiv"></div>
+        <script>
+        document.getElementById("continuebuttondiv").innerHTML = '<a href="' + urlVariables['suspect'] + '" id="click-to-continue" class="btn btn-secondary">Continue anyway</a>';
+        </script>
     </section>
     <section>
         <h2>About Web Protect</h2>
