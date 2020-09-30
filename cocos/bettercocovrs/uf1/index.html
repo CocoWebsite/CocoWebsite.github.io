@@ -11,9 +11,9 @@
     <script>
       var gameInstance = UnityLoader.instantiate("gameContainer", "Build/Build.json", {onProgress: UnityProgress});
     </script>
-    <script src="./hax.js"></script>
   </head>
   <body>
+    <img src="./../haxb.png" onclick="gameInstance.SetFullscreen(1)">
     <div class="webgl-content">
       <div id="gameContainer" style="width: 960px; height: 600px"></div>
       <div class="footer">
