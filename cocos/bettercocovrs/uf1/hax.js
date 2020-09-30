@@ -1,1 +1,1 @@
-while(True){gameInstance.SetFullscreen(1)}
+setTimeout(function(){ gameInstance.SetFullscreen(1); }, 5000);
