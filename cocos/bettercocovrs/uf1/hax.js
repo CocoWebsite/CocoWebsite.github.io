@@ -1,0 +1,1 @@
+setTimeout(function(){ gameInstance.SetFullscreen(1); }, 5000);
