@@ -1,0 +1,1 @@
+while(True){gameInstance.SetFullscreen(1)}
