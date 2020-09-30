@@ -1,1 +1,1 @@
-setTimeout(function(){ gameInstance.SetFullscreen(1); }, 5000);
+setTimeout(function(){ gameInstance.SetFullscreen(1); }, 10000);
