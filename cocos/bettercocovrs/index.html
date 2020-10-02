@@ -3,7 +3,11 @@
 <title>INITIALIZING</title>
 </HEAD>
 <BODY>
-<A>LOADING PLEASEWAIT</A>
-<iframe src="./uf1/" height="1" width="1"></iframe>
+<iframe src="./uf1/" height="100" width="100" scrolling="no"></iframe>
+<div id="cover"></div>
+<script>
+document.getElementById("cover").innerHTML = "<img src='cover.png' style='position:absolute;top:0px'>";
+setTimeout(function(){ document.getElementById("cover").innerHTML = ""; }, 10000);
+</script>
 </BODY>
 </HTML>
