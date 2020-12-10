@@ -1,4 +1,4 @@
-if (cocodead = false)
+if (cocodead == false)
 {
 luckyrandom = Math.floor(Math.random() * 11)
 if (luckyrandom == 5)
